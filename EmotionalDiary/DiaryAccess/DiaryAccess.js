@@ -1,1089 +1,324 @@
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+document.addEventListener("DOMContentLoaded", function () {
+    initSidebar();
+    initActiveNavigation();
+    initProfileMenu();
+    initStudentProfile();
+    initPasswordVisibility();
+    initDiaryAccess();
+    initForgotPassword();
+    initBackButton();
+});
 
-        initSidebar();
-
-        initActiveNavigation();
-
-        initProfileMenu();
-
-        initStudentProfile();
-
-        initPasswordVisibility();
-
-        initDiaryAccess();
-
-        initForgotPassword();
-
-        initBackButton();
-
-    }
-);
-
-
-
-/* =========================================================
+/* =========================================
    SIDEBAR
-========================================================= */
-
+========================================= */
 function initSidebar() {
+    const menuButton = document.getElementById("mobileMenu");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("sidebarOverlay");
 
-
-    const menuButton =
-        document.getElementById(
-            "mobileMenu"
-        );
-
-
-    const sidebar =
-        document.getElementById(
-            "sidebar"
-        );
-
-
-    const overlay =
-        document.getElementById(
-            "sidebarOverlay"
-        );
-
-
-    if (
-        !menuButton ||
-        !sidebar ||
-        !overlay
-    ) {
-
-        return;
-
-    }
-
-
+    if (!menuButton || !sidebar || !overlay) return;
 
     function openSidebar() {
-
-        sidebar.classList.add(
-            "open"
-        );
-
-        overlay.classList.add(
-            "active"
-        );
-
-        menuButton.setAttribute(
-            "aria-expanded",
-            "true"
-        );
-
-        document.body.style.overflow =
-            "hidden";
-
+        sidebar.classList.add("open");
+        overlay.classList.add("active");
+        menuButton.setAttribute("aria-expanded", "true");
+        document.body.style.overflow = "hidden";
     }
-
-
 
     function closeSidebar() {
-
-        sidebar.classList.remove(
-            "open"
-        );
-
-        overlay.classList.remove(
-            "active"
-        );
-
-        menuButton.setAttribute(
-            "aria-expanded",
-            "false"
-        );
-
-        document.body.style.overflow =
-            "";
-
+        sidebar.classList.remove("open");
+        overlay.classList.remove("active");
+        menuButton.setAttribute("aria-expanded", "false");
+        document.body.style.overflow = "";
     }
 
-
-
-    menuButton.addEventListener(
-        "click",
-        function () {
-
-            if (
-                sidebar.classList.contains(
-                    "open"
-                )
-            ) {
-
-                closeSidebar();
-
-            }
-
-            else {
-
-                openSidebar();
-
-            }
-
+    menuButton.addEventListener("click", function () {
+        if (sidebar.classList.contains("open")) {
+            closeSidebar();
+        } else {
+            openSidebar();
         }
-    );
+    });
 
+    overlay.addEventListener("click", closeSidebar);
 
-
-    overlay.addEventListener(
-        "click",
-        closeSidebar
-    );
-
-
-
-    document
-        .querySelectorAll(
-            ".menu-item"
-        )
-        .forEach(
-            function (item) {
-
-                item.addEventListener(
-                    "click",
-                    function () {
-
-                        if (
-                            window.innerWidth <=
-                            920
-                        ) {
-
-                            closeSidebar();
-
-                        }
-
-                    }
-                );
-
-            }
-        );
-
-
-
-    window.addEventListener(
-        "resize",
-        function () {
-
-            if (
-                window.innerWidth >
-                920
-            ) {
-
+    document.querySelectorAll(".menu-item").forEach(function (item) {
+        item.addEventListener("click", function () {
+            if (window.innerWidth <= 950) {
                 closeSidebar();
-
             }
+        });
+    });
 
+    window.addEventListener("resize", function () {
+        if (window.innerWidth > 950) {
+            closeSidebar();
         }
-    );
-
+    });
 }
 
-
-
-/* =========================================================
-   SIDEBAR ACTIVO
-
-   Detecta automáticamente la página actual.
-========================================================= */
-
+/* =========================================
+   ACTIVE NAV
+========================================= */
 function initActiveNavigation() {
+    const items = document.querySelectorAll(".menu-item");
+    const currentPath = normalizePath(window.location.pathname);
 
+    items.forEach(function (item) {
+        item.classList.remove("active");
+        item.removeAttribute("aria-current");
 
-    const menuItems =
-        document.querySelectorAll(
-            ".menu-item"
+        const href = item.getAttribute("href");
+        if (!href) return;
+
+        const linkPath = normalizePath(
+            new URL(href, window.location.origin).pathname
         );
 
+        const exactMatch = currentPath === linkPath;
 
-    if (!menuItems.length) {
+        const diaryMatch =
+            item.dataset.page === "diario" &&
+            currentPath.includes("/emotionaldiary/");
 
-        return;
-
-    }
-
-
-
-    const currentPath =
-        normalizePath(
-            window.location.pathname
-        );
-
-
-
-    menuItems.forEach(
-        function (item) {
-
-
-            item.classList.remove(
-                "active"
-            );
-
-
-            item.removeAttribute(
-                "aria-current"
-            );
-
-
-            const href =
-                item.getAttribute(
-                    "href"
-                );
-
-
-            if (!href) {
-
-                return;
-
-            }
-
-
-            const url =
-                new URL(
-                    href,
-                    window.location.origin
-                );
-
-
-            const linkPath =
-                normalizePath(
-                    url.pathname
-                );
-
-
-
-            const exactMatch =
-                currentPath ===
-                linkPath;
-
-
-
-            /*
-                Cualquier página dentro de
-                /EmotionalDiary/
-                mantiene Diario emocional activo.
-            */
-
-            const diaryMatch =
-
-                item.dataset.page ===
-                "diario"
-
-                &&
-
-                currentPath.includes(
-                    "/emotionaldiary/"
-                );
-
-
-
-            if (
-                exactMatch ||
-                diaryMatch
-            ) {
-
-                item.classList.add(
-                    "active"
-                );
-
-
-                item.setAttribute(
-                    "aria-current",
-                    "page"
-                );
-
-            }
-
+        if (exactMatch || diaryMatch) {
+            item.classList.add("active");
+            item.setAttribute("aria-current", "page");
         }
-    );
-
+    });
 }
-
-
-
-/* =========================================================
-   NORMALIZAR URL
-========================================================= */
 
 function normalizePath(path) {
-
-
-    return (
-        path || ""
-    )
+    return (path || "")
         .split("?")[0]
         .split("#")[0]
-        .replace(
-            /\/+/g,
-            "/"
-        )
-        .replace(
-            /\/$/,
-            ""
-        )
+        .replace(/\/+/g, "/")
+        .replace(/\/$/, "")
         .toLowerCase();
-
 }
 
-
-
-/* =========================================================
-   MENU PERFIL DEL HEADER
-========================================================= */
-
+/* =========================================
+   PROFILE MENU
+========================================= */
 function initProfileMenu() {
+    const button = document.getElementById("profileButton");
+    const menu = document.getElementById("profileMenu");
 
+    if (!button || !menu) return;
 
-    const button =
-        document.getElementById(
-            "profileButton"
-        );
+    button.addEventListener("click", function (event) {
+        event.stopPropagation();
 
+        const open = !menu.classList.contains("show");
 
-    const menu =
-        document.getElementById(
-            "profileMenu"
-        );
+        menu.classList.toggle("show", open);
+        button.classList.toggle("is-open", open);
+    });
 
+    menu.addEventListener("click", function (event) {
+        event.stopPropagation();
+    });
 
-    if (
-        !button ||
-        !menu
-    ) {
-
-        return;
-
-    }
-
-
-
-    button.addEventListener(
-        "click",
-        function (event) {
-
-            event.stopPropagation();
-
-
-            const open =
-                !menu.classList.contains(
-                    "show"
-                );
-
-
-            menu.classList.toggle(
-                "show",
-                open
-            );
-
-
-            button.classList.toggle(
-                "open",
-                open
-            );
-
-        }
-    );
-
-
-
-    menu.addEventListener(
-        "click",
-        function (event) {
-
-            event.stopPropagation();
-
-        }
-    );
-
-
-
-    document.addEventListener(
-        "click",
-        function () {
-
-            menu.classList.remove(
-                "show"
-            );
-
-
-            button.classList.remove(
-                "open"
-            );
-
-        }
-    );
-
+    document.addEventListener("click", function () {
+        menu.classList.remove("show");
+        button.classList.remove("is-open");
+    });
 }
 
-
-
-/* =========================================================
-   FOTO Y NOMBRE DEL ESTUDIANTE
-========================================================= */
-
-
-const PROFILE_PHOTO_KEY =
-    "sentirStudentProfilePhoto";
-
-
-const STUDENT_NAME_KEY =
-    "sentirStudentName";
-
-
+/* =========================================
+   PROFILE SYNC
+========================================= */
+const PROFILE_PHOTO_KEY = "sentirStudentProfilePhoto";
+const STUDENT_NAME_KEY = "sentirStudentName";
 
 function initStudentProfile() {
-
-
     loadStudentPhoto();
-
     loadStudentName();
 
-
-
-    /*
-        Si StudentProfile cambia la foto
-        desde otra pestaña, esta pantalla
-        se actualiza automáticamente.
-    */
-
-    window.addEventListener(
-        "storage",
-        function (event) {
-
-
-            if (
-                event.key ===
-                PROFILE_PHOTO_KEY
-            ) {
-
-                loadStudentPhoto();
-
-            }
-
-
-
-            if (
-                event.key ===
-                STUDENT_NAME_KEY
-            ) {
-
-                loadStudentName();
-
-            }
-
+    window.addEventListener("storage", function (event) {
+        if (event.key === PROFILE_PHOTO_KEY) {
+            loadStudentPhoto();
         }
-    );
 
+        if (event.key === STUDENT_NAME_KEY) {
+            loadStudentName();
+        }
+    });
 }
-
-
-
-/* =========================================================
-   CARGAR FOTO
-========================================================= */
 
 function loadStudentPhoto() {
+    const photo = localStorage.getItem(PROFILE_PHOTO_KEY);
 
+    document.querySelectorAll("[data-profile-avatar]").forEach(function (avatar) {
+        const image = avatar.querySelector(".profile-avatar-image");
+        const fallback = avatar.querySelector(".profile-avatar-fallback");
 
-    const photo =
-        localStorage.getItem(
-            PROFILE_PHOTO_KEY
-        );
+        if (!image || !fallback) return;
 
-
-    const avatars =
-        document.querySelectorAll(
-            "[data-profile-avatar]"
-        );
-
-
-
-    avatars.forEach(
-        function (avatar) {
-
-
-            const image =
-                avatar.querySelector(
-                    ".profile-avatar-image"
-                );
-
-
-            const fallback =
-                avatar.querySelector(
-                    ".profile-avatar-fallback"
-                );
-
-
-            if (
-                !image ||
-                !fallback
-            ) {
-
-                return;
-
-            }
-
-
-
-            if (photo) {
-
-
-                image.src =
-                    photo;
-
-
-                image.hidden =
-                    false;
-
-
-                fallback.hidden =
-                    true;
-
-            }
-
-
-            else {
-
-
-                image.hidden =
-                    true;
-
-
-                fallback.hidden =
-                    false;
-
-            }
-
+        if (photo) {
+            image.src = photo;
+            image.hidden = false;
+            fallback.hidden = true;
+        } else {
+            image.hidden = true;
+            fallback.hidden = false;
         }
-    );
-
+    });
 }
-
-
-
-/* =========================================================
-   CARGAR NOMBRE
-========================================================= */
 
 function loadStudentName() {
+    const name = localStorage.getItem(STUDENT_NAME_KEY) || "Ana";
 
+    document.querySelectorAll("[data-student-name]").forEach(function (el) {
+        el.textContent = name;
+    });
 
-    const name =
-        localStorage.getItem(
-            STUDENT_NAME_KEY
-        )
-        ||
-        "Ana";
+    const firstLetter = name.trim().charAt(0).toUpperCase() || "A";
 
-
-    document
-        .querySelectorAll(
-            "[data-student-name]"
-        )
-        .forEach(
-            function (element) {
-
-                element.textContent =
-                    name;
-
-            }
-        );
-
-
-
-    const firstLetter =
-        name
-            .trim()
-            .charAt(0)
-            .toUpperCase()
-        ||
-        "A";
-
-
-
-    document
-        .querySelectorAll(
-            ".profile-avatar-fallback"
-        )
-        .forEach(
-            function (element) {
-
-                element.textContent =
-                    firstLetter;
-
-            }
-        );
-
+    document.querySelectorAll(".profile-avatar-fallback").forEach(function (el) {
+        el.textContent = firstLetter;
+    });
 }
 
-
-
-/* =========================================================
-   MOSTRAR / OCULTAR CLAVE
-========================================================= */
-
+/* =========================================
+   SHOW/HIDE PASSWORD
+========================================= */
 function initPasswordVisibility() {
+    const input = document.getElementById("diaryPassword");
+    const button = document.getElementById("showPassword");
 
+    if (!input || !button) return;
 
-    const input =
-        document.getElementById(
-            "diaryPassword"
-        );
+    button.addEventListener("click", function () {
+        const isPassword = input.type === "password";
 
+        input.type = isPassword ? "text" : "password";
 
-    const button =
-        document.getElementById(
-            "showPassword"
-        );
-
-
-    if (
-        !input ||
-        !button
-    ) {
-
-        return;
-
-    }
-
-
-
-    button.addEventListener(
-        "click",
-        function () {
-
-
-            const isPassword =
-                input.type ===
-                "password";
-
-
-            input.type =
-                isPassword
-                    ? "text"
-                    : "password";
-
-
-            button.innerHTML =
-                isPassword
-
-                    ? '<i class="fa-regular fa-eye-slash"></i>'
-
-                    : '<i class="fa-regular fa-eye"></i>';
-
-        }
-    );
-
+        button.innerHTML = isPassword
+            ? '<i class="fa-regular fa-eye-slash"></i>'
+            : '<i class="fa-regular fa-eye"></i>';
+    });
 }
 
-
-
-/* =========================================================
-   ACCESO AL DIARIO
-========================================================= */
-
+/* =========================================
+   DIARY ACCESS
+========================================= */
 function initDiaryAccess() {
+    const form = document.getElementById("diaryLoginForm");
+    const input = document.getElementById("diaryPassword");
+    const error = document.getElementById("formError");
 
+    if (!form || !input) return;
 
-    const form =
-        document.getElementById(
-            "diaryLoginForm"
-        );
+    input.addEventListener("input", function () {
+        input.value = input.value.replace(/\D/g, "");
 
+        if (error) error.textContent = "";
+    });
 
-    const input =
-        document.getElementById(
-            "diaryPassword"
-        );
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
 
+        const password = input.value.trim();
 
-    const error =
-        document.getElementById(
-            "formError"
-        );
-
-
-    if (
-        !form ||
-        !input
-    ) {
-
-        return;
-
-    }
-
-
-
-    /*
-        Solo permitir números.
-    */
-
-    input.addEventListener(
-        "input",
-        function () {
-
-
-            input.value =
-                input.value.replace(
-                    /\D/g,
-                    ""
-                );
-
-
+        if (password.length < 4) {
             if (error) {
-
-                error.textContent =
-                    "";
-
+                error.textContent = "Ingresa tu clave para continuar.";
             }
-
+            input.focus();
+            return;
         }
-    );
 
+        showToast("Acceso correcto. Abriendo tu diario...");
 
-
-    form.addEventListener(
-        "submit",
-        function (event) {
-
-
-            event.preventDefault();
-
-
-
-            const password =
-                input.value.trim();
-
-
-
-            if (
-                password.length < 4
-            ) {
-
-
-                if (error) {
-
-                    error.textContent =
-                        "Ingresa tu clave para continuar.";
-
-                }
-
-
-                input.focus();
-
-
-                return;
-
-            }
-
-
-
-            /*
-            ==============================================
-            CUANDO TENGAS BACKEND:
-
-            AQUÍ SE DEBE VALIDAR LA CLAVE
-            CONTRA LA BASE DE DATOS.
-
-            Por ahora permitimos continuar
-            si escribió entre 4 y 6 números.
-            ==============================================
-            */
-
-
-
-            showToast(
-                "Acceso correcto. Abriendo tu diario..."
-            );
-
-
-
-            setTimeout(
-                function () {
-
-
-                    /*
-                        CAMBIA ESTA RUTA POR LA
-                        PANTALLA PRINCIPAL DEL DIARIO.
-                    */
-
-                    window.location.href =
-                        "/Sentir/Client/ScreenStudents/EmotionalDiary/Daily.html";
-
-
-                },
-                700
-            );
-
-        }
-    );
-
+        setTimeout(function () {
+            window.location.href =
+                "/Sentir/Client/ScreenStudents/EmotionalDiary/Daily.html";
+        }, 700);
+    });
 }
 
-
-
-/* =========================================================
-   OLVIDÓ CLAVE
-========================================================= */
-
+/* =========================================
+   FORGOT PASSWORD
+========================================= */
 function initForgotPassword() {
+    const button = document.getElementById("forgotPassword");
+    const modal = document.getElementById("forgotModal");
+    const close = document.getElementById("closeForgotModal");
 
+    if (!button || !modal) return;
 
-    const button =
-        document.getElementById(
-            "forgotPassword"
-        );
-
-
-    const modal =
-        document.getElementById(
-            "forgotModal"
-        );
-
-
-    const close =
-        document.getElementById(
-            "closeForgotModal"
-        );
-
-
-    if (
-        !button ||
-        !modal
-    ) {
-
-        return;
-
-    }
-
-
-
-    button.addEventListener(
-        "click",
-        function () {
-
-            openModal(
-                modal
-            );
-
-        }
-    );
-
-
+    button.addEventListener("click", function () {
+        openModal(modal);
+    });
 
     if (close) {
-
-        close.addEventListener(
-            "click",
-            function () {
-
-                closeModal(
-                    modal
-                );
-
-            }
-        );
-
+        close.addEventListener("click", function () {
+            closeModal(modal);
+        });
     }
 
-
-
-    modal.addEventListener(
-        "click",
-        function (event) {
-
-
-            if (
-                event.target ===
-                modal
-            ) {
-
-                closeModal(
-                    modal
-                );
-
-            }
-
+    modal.addEventListener("click", function (event) {
+        if (event.target === modal) {
+            closeModal(modal);
         }
-    );
-
+    });
 }
 
-
-
-/* =========================================================
-   BOTÓN VOLVER EN MÓVIL
-========================================================= */
-
+/* =========================================
+   BACK BUTTON
+========================================= */
 function initBackButton() {
+    const button = document.getElementById("backButton");
+    if (!button) return;
 
-
-    const button =
-        document.getElementById(
-            "backButton"
-        );
-
-
-    if (!button) {
-
-        return;
-
-    }
-
-
-
-    button.addEventListener(
-        "click",
-        function () {
-
-
-            if (
-                window.history.length >
-                1
-            ) {
-
-                window.history.back();
-
-            }
-
-
-            else {
-
-                window.location.href =
-                    "/Sentir/Client/ScreenStudents/Students.html";
-
-            }
-
+    button.addEventListener("click", function () {
+        if (window.history.length > 1) {
+            window.history.back();
+        } else {
+            window.location.href =
+                "/Sentir/Client/ScreenStudents/Students.html";
         }
-    );
-
+    });
 }
 
-
-
-/* =========================================================
-   MODALES
-========================================================= */
-
+/* =========================================
+   MODALS
+========================================= */
 function openModal(modal) {
-
-
-    modal.classList.add(
-        "show"
-    );
-
-
-    document.body.classList.add(
-        "modal-open"
-    );
-
+    modal.classList.add("show");
+    document.body.classList.add("modal-open");
 }
-
-
 
 function closeModal(modal) {
-
-
-    modal.classList.remove(
-        "show"
-    );
-
-
-    document.body.classList.remove(
-        "modal-open"
-    );
-
+    modal.classList.remove("show");
+    document.body.classList.remove("modal-open");
 }
 
+document.addEventListener("keydown", function (event) {
+    if (event.key !== "Escape") return;
 
+    document.querySelectorAll(".modal-overlay.show").forEach(function (modal) {
+        closeModal(modal);
+    });
+});
 
-/* CERRAR CON ESC */
-
-document.addEventListener(
-    "keydown",
-    function (event) {
-
-
-        if (
-            event.key !==
-            "Escape"
-        ) {
-
-            return;
-
-        }
-
-
-        document
-            .querySelectorAll(
-                ".modal-overlay.show"
-            )
-            .forEach(
-                function (modal) {
-
-                    closeModal(
-                        modal
-                    );
-
-                }
-            );
-
-    }
-);
-
-
-
-/* =========================================================
+/* =========================================
    TOAST
-========================================================= */
-
+========================================= */
 let toastTimeout;
 
-
-
 function showToast(message) {
+    const toast = document.getElementById("toast");
+    if (!toast) return;
 
+    clearTimeout(toastTimeout);
 
-    const toast =
-        document.getElementById(
-            "toast"
-        );
+    toast.textContent = message;
+    toast.classList.add("show");
 
-
-    if (!toast) {
-
-        return;
-
-    }
-
-
-    clearTimeout(
-        toastTimeout
-    );
-
-
-    toast.textContent =
-        message;
-
-
-    toast.classList.add(
-        "show"
-    );
-
-
-    toastTimeout =
-        setTimeout(
-            function () {
-
-                toast.classList.remove(
-                    "show"
-                );
-
-            },
-            2600
-        );
-
+    toastTimeout = setTimeout(function () {
+        toast.classList.remove("show");
+    }, 2600);
 }

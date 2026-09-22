@@ -1,2925 +1,1332 @@
-/* ==========================================================
-   SENTIR
-   ACCESO AL DIARIO EMOCIONAL
-========================================================== */
-
-
 :root {
-
     --morado: #6c4df6;
-    --morado-profundo: #351a98;
-
-    --violeta: #7b4df8;
-
+    --morado-profundo: #351b91;
     --lavanda: #b8a8ff;
-    --lavanda-suave: #eee9ff;
-    --lavanda-fondo: #f7f4ff;
-
-    --azul: #7796ff;
-    --celeste: #a7d8ff;
-
-    --rosa: #e972c0;
-
+    --lavanda-clara: #eee9ff;
+    --lavanda-fondo: #f6f3ff;
+    --azul: #6cb9ff;
+    --celeste: #dff2ff;
+    --rosa: #f19ad8;
+    --verde: #7cd6ac;
+    --rojo: #ff5c6f;
     --blanco: #ffffff;
-
-    --texto: #21184f;
-    --texto-suave: #6e6885;
-
-    --fondo: #f3f1ff;
-
-    --borde:
-        rgba(108, 77, 246, 0.13);
-
-    --sombra:
-        0 18px 45px
-        rgba(67, 47, 155, 0.10);
-
+    --texto: #221d48;
+    --texto-suave: #706c87;
+    --borde: rgba(108, 77, 246, 0.12);
+    --sombra: 0 16px 45px rgba(72, 52, 154, 0.09);
 }
-
-
-/* ==========================================================
-   RESET
-========================================================== */
 
 * {
-
-    box-sizing: border-box;
-
     margin: 0;
     padding: 0;
-
+    box-sizing: border-box;
 }
-
 
 html {
-
     scroll-behavior: smooth;
-
 }
-
 
 body {
-
     min-height: 100vh;
-
-    overflow-x: hidden;
-
-    font-family:
-        "Poppins",
-        sans-serif;
-
-    color:
-        var(--texto);
-
+    font-family: "Poppins", sans-serif;
+    color: var(--texto);
     background:
-        var(--fondo);
-
+        radial-gradient(circle at 5% 10%, rgba(184, 168, 255, 0.25), transparent 24%),
+        radial-gradient(circle at 95% 5%, rgba(108, 185, 255, 0.18), transparent 26%),
+        var(--lavanda-fondo);
+    overflow-x: hidden;
 }
-
 
 body.modal-open {
-
     overflow: hidden;
-
 }
-
 
 button,
 input {
-
     font: inherit;
-
 }
-
 
 button {
-
     border: none;
-
 }
 
-
-button,
 a {
-
-    -webkit-tap-highlight-color:
-        transparent;
-
-}
-
-
-a {
-
     color: inherit;
-
     text-decoration: none;
-
 }
-
 
 img {
-
     display: block;
-
     max-width: 100%;
-
 }
-
-
-/* ==========================================================
-   APP
-========================================================== */
 
 .app {
-
     min-height: 100vh;
-
 }
 
-
-/* ==========================================================
-   SIDEBAR
-========================================================== */
+/* ==============================
+   SIDEBAR - MISMA ESTÉTICA STUDENTS
+================================= */
 
 .sidebar {
-
     position: fixed;
-
-    inset:
-        0 auto 0 0;
-
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 260px;
     z-index: 100;
-
-    width: 250px;
-
-    min-height: 100vh;
-
     display: flex;
-
     flex-direction: column;
-
-    padding:
-        27px 20px 24px;
-
-    background:
-        rgba(255, 255, 255, 0.96);
-
-    border-right:
-        1px solid
-        rgba(108, 77, 246, 0.08);
-
-    box-shadow:
-        8px 0 35px
-        rgba(65, 45, 145, 0.04);
-
-    transition:
-        transform 0.3s ease;
-
+    padding: 28px 20px 24px;
+    background: rgba(255, 255, 255, 0.97);
+    border-right: 1px solid rgba(108, 77, 246, 0.08);
+    box-shadow: 10px 0 35px rgba(72, 52, 154, 0.05);
+    transition: transform 0.3s ease;
 }
-
-
-/* LOGO */
 
 .sidebar-logo {
-
-    padding:
-        5px
-        20px
-        30px;
-
+    padding: 4px 14px 26px;
 }
-
 
 .sidebar-logo img {
-
     width: 125px;
-
 }
-
-
-
-/* MENU */
 
 .menu {
-
     display: flex;
-
     flex-direction: column;
-
-    gap: 8px;
-
+    gap: 7px;
 }
-
 
 .menu-item {
-
     position: relative;
-
     min-height: 52px;
-
     display: flex;
-
     align-items: center;
-
-    gap: 15px;
-
-    padding:
-        0 17px;
-
+    gap: 14px;
+    padding: 0 17px;
     border-radius: 16px;
-
-    color:
-        #68677e;
-
+    color: #68667a;
     font-size: 14px;
-
     font-weight: 500;
-
-    transition:
-        all 0.22s ease;
-
+    transition: 0.2s ease;
 }
-
 
 .menu-item i {
-
     width: 22px;
-
+    font-size: 17px;
     text-align: center;
-
-    font-size: 18px;
-
 }
-
 
 .menu-item:hover {
-
-    color:
-        var(--morado);
-
-    background:
-        rgba(108, 77, 246, 0.06);
-
+    background: rgba(108, 77, 246, 0.07);
+    color: var(--morado);
 }
-
-
-/* OPCIÓN ACTIVA */
 
 .menu-item.active {
-
-    color:
-        var(--morado);
-
+    color: var(--morado-profundo);
+    background: linear-gradient(
+        90deg,
+        rgba(108, 77, 246, 0.17),
+        rgba(184, 168, 255, 0.10)
+    );
     font-weight: 700;
-
-    background:
-
-        linear-gradient(
-            90deg,
-            rgba(108, 77, 246, 0.16),
-            rgba(184, 168, 255, 0.12)
-        );
-
 }
-
 
 .menu-item.active::before {
-
     content: "";
-
     position: absolute;
-
     left: -5px;
-
     width: 4px;
-    height: 28px;
-
-    border-radius: 10px;
-
-    background:
-        var(--morado);
-
+    height: 27px;
+    border-radius: 20px;
+    background: var(--morado);
 }
-
-
-
-/* PARTE INFERIOR */
 
 .sidebar-bottom {
-
     margin-top: auto;
-
 }
 
-
-.safe-card {
-
+.privacy-box {
     position: relative;
-
-    display: grid;
-
-    grid-template-columns:
-        45px 1fr;
-
-    gap: 11px;
-
-    padding: 17px 15px;
-
-    border:
-
-        1px solid
-        rgba(108, 77, 246, 0.11);
-
-    border-radius: 18px;
-
-    background:
-
-        linear-gradient(
-            145deg,
-            #faf8ff,
-            #f1f4ff
-        );
-
-}
-
-
-.safe-illustration {
-
-    width: 44px;
-    height: 62px;
-
-    display: grid;
-
-    place-items: center;
-
-    border-radius:
-        50% 50% 45% 45%;
-
-    color:
-        #668bdc;
-
-    background:
-
-        linear-gradient(
-            180deg,
-            #e6e5ff,
-            #e6f5ff
-        );
-
-    font-size: 22px;
-
-}
-
-
-.safe-content strong {
-
-    display: block;
-
-    margin-bottom: 3px;
-
-    font-size: 12px;
-
-    line-height: 1.3;
-
-}
-
-
-.safe-content p {
-
-    color:
-        var(--texto-suave);
-
-    font-size: 10px;
-
-    line-height: 1.45;
-
-}
-
-
-.safe-heart {
-
-    position: absolute;
-
-    right: 13px;
-    bottom: 12px;
-
-    color:
-        var(--morado);
-
-    font-size: 12px;
-
-}
-
-
-.logout {
-
-    min-height: 49px;
-
     display: flex;
-
     align-items: center;
-
-    gap: 13px;
-
-    margin-top: 16px;
-
-    padding:
-        0 17px;
-
-    border-radius: 14px;
-
-    color:
-        #706d83;
-
-    font-size: 13px;
-
-    transition:
-        0.2s ease;
-
-}
-
-
-.logout:hover {
-
-    color:
-        var(--morado);
-
-    background:
-        rgba(108, 77, 246, 0.06);
-
-}
-
-
-/* ==========================================================
-   OVERLAY SIDEBAR
-========================================================== */
-
-.sidebar-overlay {
-
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 90;
-
-    display: none;
-
-    background:
-        rgba(29, 21, 63, 0.36);
-
-    backdrop-filter:
-        blur(4px);
-
-}
-
-
-/* ==========================================================
-   MAIN
-========================================================== */
-
-.main-content {
-
-    width:
-        calc(100% - 250px);
-
-    min-height: 100vh;
-
-    margin-left: 250px;
-
-    padding:
-        22px
-        28px
-        30px;
-
-}
-
-
-/* ==========================================================
-   HEADER
-========================================================== */
-
-.topbar {
-
-    position: relative;
-
-    z-index: 50;
-
-    max-width: 1400px;
-
-    min-height: 63px;
-
-    margin:
-        0
-        auto
-        17px;
-
-    padding:
-        8px
-        12px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 20px;
-
-}
-
-
-.header-left {
-
-    flex: 1;
-
-    min-width: 0;
-
-    display: flex;
-
-    align-items: center;
-
     gap: 12px;
-
+    padding: 16px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #f6f2ff, #eef8ff);
 }
 
-
-/* IMPORTANTE:
-   SOLO UN HAMBURGUESA */
-
-.mobile-menu {
-
-    display: none;
-
-}
-
-
-.mobile-logo {
-
-    display: none;
-
-}
-
-
-.search-box {
-
-    width:
-        min(440px, 100%);
-
-    min-height: 42px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 11px;
-
-    padding:
-        0 15px;
-
-    border:
-
-        1px solid
-        rgba(108, 77, 246, 0.08);
-
-    border-radius: 15px;
-
-    background:
-        rgba(255, 255, 255, 0.8);
-
-    color:
-        #9692aa;
-
-}
-
-
-.search-box input {
-
-    width: 100%;
-
-    border: none;
-
-    outline: none;
-
-    background: transparent;
-
-    color:
-        var(--texto);
-
-    font-size: 13px;
-
-}
-
-
-.search-box i {
-
-    font-size: 14px;
-
-}
-
-
-/* ACCIONES */
-
-.top-actions {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-
-}
-
-
-.notification {
-
-    position: relative;
-
-    width: 43px;
-    height: 43px;
-
-    display: grid;
-
-    place-items: center;
-
-    border-radius: 14px;
-
-    background: transparent;
-
-    color:
-        #272245;
-
-    font-size: 18px;
-
-    cursor: pointer;
-
-}
-
-
-.notification:hover {
-
-    background:
-        rgba(108, 77, 246, 0.07);
-
-}
-
-
-.notification-dot {
-
-    position: absolute;
-
-    top: 6px;
-    right: 7px;
-
-    width: 8px;
-    height: 8px;
-
-    border:
-
-        2px solid
-        white;
-
-    border-radius: 50%;
-
-    background:
-        #ff4356;
-
-}
-
-
-/* PERFIL */
-
-.profile-wrapper {
-
-    position: relative;
-
-}
-
-
-.profile-button {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-
-    padding:
-        4px
-        7px
-        4px
-        4px;
-
-    border-radius: 15px;
-
-    background: transparent;
-
-    cursor: pointer;
-
-}
-
-
-.profile-button:hover {
-
-    background:
-        rgba(108, 77, 246, 0.06);
-
-}
-
-
-.profile-avatar {
-
-    position: relative;
-
+.privacy-icon {
     width: 42px;
     height: 42px;
-
     flex-shrink: 0;
-
-    overflow: hidden;
-
     display: grid;
-
     place-items: center;
-
-    border-radius: 50%;
-
-    color: white;
-
-    background:
-
-        linear-gradient(
-            135deg,
-            #7f9bff,
-            #6c4df6
-        );
-
-    box-shadow:
-
-        0 7px 16px
-        rgba(108, 77, 246, 0.18);
-
-    font-size: 14px;
-
-    font-weight: 700;
-
+    border-radius: 14px;
+    background: #e9e2ff;
+    color: var(--morado);
+    font-size: 17px;
 }
 
+.privacy-box strong {
+    display: block;
+    margin-bottom: 3px;
+    font-size: 12px;
+}
+
+.privacy-box span {
+    display: block;
+    color: var(--texto-suave);
+    font-size: 10px;
+    line-height: 1.4;
+}
+
+.privacy-heart {
+    position: absolute;
+    right: 14px;
+    bottom: 12px;
+    color: var(--morado);
+    font-size: 12px;
+}
+
+.logout {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-top: 14px;
+    padding: 0 17px;
+    border-radius: 14px;
+    color: #747185;
+    font-size: 13px;
+}
+
+.logout:hover {
+    background: rgba(108, 77, 246, 0.06);
+    color: var(--morado);
+}
+
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    display: none;
+    background: rgba(28, 22, 53, 0.35);
+    backdrop-filter: blur(4px);
+}
+
+/* ==============================
+   MAIN
+================================= */
+
+.main-content {
+    margin-left: 260px;
+    width: calc(100% - 260px);
+    min-height: 100vh;
+    padding: 20px 28px 34px;
+}
+
+/* ==============================
+   HEADER - MISMO ESTILO STUDENTS
+================================= */
+
+.topbar {
+    position: sticky;
+    top: 10px;
+    z-index: 50;
+    max-width: 1400px;
+    min-height: 64px;
+    margin: 0 auto 18px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border: 1px solid rgba(108, 77, 246, 0.08);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.91);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 10px 30px rgba(70, 50, 150, 0.06);
+}
+
+.header-left {
+    min-width: 0;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.mobile-menu {
+    display: none;
+}
+
+.mobile-logo {
+    display: none;
+}
+
+.search-box {
+    width: min(470px, 100%);
+    min-height: 43px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 0 16px;
+    border-radius: 14px;
+    background: #f8f7fc;
+}
+
+.search-box i {
+    color: #9894a9;
+    font-size: 14px;
+}
+
+.search-box input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--texto);
+    font-size: 13px;
+}
+
+.top-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.notification {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: transparent;
+    color: #3a3557;
+    cursor: pointer;
+    font-size: 17px;
+}
+
+.notification:hover {
+    background: #f3efff;
+    color: var(--morado);
+}
+
+.notification-dot {
+    position: absolute;
+    right: 7px;
+    top: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 2px solid white;
+    background: #ff4454;
+}
+
+.profile-wrapper {
+    position: relative;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 8px 4px 4px;
+    border-radius: 15px;
+    background: transparent;
+    cursor: pointer;
+}
+
+.profile:hover {
+    background: #f6f2ff;
+}
+
+.profile-avatar {
+    position: relative;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #7d91ff, var(--morado));
+}
 
 .profile-avatar-image {
-
     position: absolute;
-
     inset: 0;
-
     width: 100%;
     height: 100%;
-
     object-fit: cover;
-
-    object-position: center;
-
 }
 
-
-.profile-data {
-
-    min-width: 78px;
-
+.profile-info {
+    min-width: 85px;
     display: flex;
-
     flex-direction: column;
-
-    align-items: flex-start;
-
+    text-align: left;
 }
 
-
-.profile-data strong {
-
+.profile-info strong {
     font-size: 13px;
-
 }
 
-
-.profile-data span {
-
-    color:
-        var(--texto-suave);
-
-    font-size: 10px;
-
+.profile-info span {
+    color: var(--texto-suave);
+    font-size: 11px;
 }
-
 
 .profile-arrow {
-
     font-size: 10px;
-
-    transition:
-        transform 0.2s ease;
-
+    transition: transform 0.2s ease;
 }
 
-
-.profile-button.open
-.profile-arrow {
-
-    transform:
-        rotate(180deg);
-
+.profile.is-open .profile-arrow {
+    transform: rotate(180deg);
 }
-
-
-/* MENU PERFIL */
 
 .profile-menu {
-
     position: absolute;
-
     right: 0;
-
-    top:
-        calc(100% + 9px);
-
+    top: calc(100% + 10px);
     width: 190px;
-
     padding: 8px;
-
     opacity: 0;
-
     visibility: hidden;
-
-    transform:
-        translateY(-7px);
-
-    border:
-        1px solid
-        var(--borde);
-
+    transform: translateY(-6px);
+    border: 1px solid var(--borde);
     border-radius: 16px;
-
     background: white;
-
-    box-shadow:
-        var(--sombra);
-
-    transition:
-        0.2s ease;
-
+    box-shadow: var(--sombra);
+    transition: 0.2s ease;
 }
-
 
 .profile-menu.show {
-
     opacity: 1;
-
     visibility: visible;
-
-    transform:
-        translateY(0);
-
+    transform: translateY(0);
 }
-
 
 .profile-menu a {
-
     display: flex;
-
     align-items: center;
-
     gap: 10px;
-
     padding: 11px;
-
     border-radius: 11px;
-
-    color:
-        #605c74;
-
     font-size: 13px;
-
 }
-
 
 .profile-menu a:hover {
-
-    color:
-        var(--morado);
-
-    background:
-        #f5f1ff;
-
+    color: var(--morado);
+    background: #f5f1ff;
 }
 
+/* ==============================
+   CONTENEDOR DIARIO
+================================= */
 
-/* ==========================================================
-   DIARY PAGE
-========================================================== */
-
-.diary-page {
-
+.diary-shell {
     position: relative;
-
-    isolation: isolate;
-
-    max-width: 1400px;
-
-    min-height:
-        calc(100vh - 125px);
-
-    margin: auto;
-
     overflow: hidden;
-
-    padding:
-        27px
-        35px
-        28px;
-
-    border:
-
-        1px solid
-        rgba(108, 77, 246, 0.11);
-
-    border-radius: 30px;
-
+    max-width: 1400px;
+    min-height: calc(100vh - 125px);
+    margin: auto;
+    padding: 28px 30px 28px;
+    border: 1px solid rgba(108, 77, 246, 0.11);
+    border-radius: 32px;
     background:
-
-        radial-gradient(
-            circle at 50% 40%,
-            rgba(255, 255, 255, 1),
-            rgba(255, 255, 255, 0.76) 46%,
-            transparent 67%
-        ),
-
-        linear-gradient(
-            145deg,
-            #ffffff 0%,
-            #f9f7ff 45%,
-            #eeeaff 100%
-        );
-
-    box-shadow:
-        var(--sombra);
-
+        radial-gradient(circle at 12% 80%, rgba(199, 190, 255, 0.28), transparent 25%),
+        radial-gradient(circle at 95% 8%, rgba(182, 220, 255, 0.26), transparent 20%),
+        radial-gradient(circle at 68% 82%, rgba(225, 202, 255, 0.18), transparent 18%),
+        linear-gradient(135deg, #ffffff 0%, #fbf8ff 45%, #f1ecff 100%);
+    box-shadow: var(--sombra);
 }
 
-
-/* FORMAS DEL FONDO */
-
-.bg-shape {
-
+/* blobs */
+.bg-blob {
     position: absolute;
-
-    z-index: -2;
-
     border-radius: 50%;
-
+    z-index: 0;
 }
 
-
-.bg-shape-one {
-
-    left: -150px;
-    top: 150px;
-
-    width: 400px;
-    height: 400px;
-
-    background:
-        rgba(172, 161, 255, 0.11);
-
+.bg-blob-1 {
+    width: 320px;
+    height: 320px;
+    left: -120px;
+    top: 180px;
+    background: rgba(193, 180, 255, 0.18);
 }
 
+.bg-blob-2 {
+    width: 200px;
+    height: 200px;
+    right: -60px;
+    top: -40px;
+    background: rgba(172, 210, 255, 0.20);
+}
 
-.bg-shape-two {
-
-    right: -100px;
-    top: -100px;
-
+.bg-blob-3 {
     width: 280px;
     height: 280px;
-
-    background:
-        rgba(148, 196, 255, 0.12);
-
+    left: 180px;
+    bottom: -120px;
+    background: rgba(216, 202, 255, 0.18);
 }
 
-
-.bg-shape-three {
-
-    right: -120px;
-    bottom: -145px;
-
-    width: 360px;
-    height: 360px;
-
-    background:
-        rgba(184, 168, 255, 0.10);
-
+.bg-blob-4 {
+    width: 220px;
+    height: 220px;
+    right: -60px;
+    bottom: -90px;
+    background: rgba(192, 180, 255, 0.16);
 }
 
-
-/* ==========================================================
-   ENCABEZADO
-========================================================== */
+.mobile-diary-bar {
+    display: none;
+}
 
 .diary-heading {
-
     position: relative;
-
-    z-index: 5;
-
+    z-index: 3;
     text-align: center;
-
 }
 
-
+.desktop-chip,
 .diary-chip {
-
     display: inline-flex;
-
     align-items: center;
-
     gap: 8px;
-
-    padding:
-        7px 14px;
-
+    padding: 8px 14px;
     border-radius: 999px;
-
-    color:
-        var(--morado);
-
-    background:
-        #eee9ff;
-
+    background: #efe9ff;
+    color: var(--morado);
     font-size: 12px;
-
     font-weight: 600;
-
 }
-
-
-.diary-chip i {
-
-    font-size: 13px;
-
-}
-
-
-.main-title-row {
-
-    margin-top: 21px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 12px;
-
-}
-
 
 .diary-heading h1 {
-
-    color:
-        #2c1593;
-
-    font-size:
-        clamp(42px, 4vw, 60px);
-
+    margin-top: 18px;
+    color: #2f1694;
+    font-size: clamp(38px, 4vw, 60px);
     line-height: 1;
-
-    letter-spacing:
-        -2px;
-
+    letter-spacing: -2px;
 }
 
-
-.heart-doodle {
-
-    color:
-        #783dff;
-
-    font-size: 60px;
-
-    line-height: 1;
-
-    transform:
-        rotate(-20deg);
-
+.heading-heart {
+    color: #7a4cff;
+    font-weight: 400;
 }
 
-
-.diary-heading > p {
-
-    max-width: 700px;
-
-    margin:
-        9px
-        auto
-        0;
-
-    color:
-        #625d83;
-
-    font-size: 17px;
-
-    line-height: 1.45;
-
+.diary-heading p {
+    max-width: 710px;
+    margin: 12px auto 0;
+    color: #666184;
+    font-size: 16px;
+    line-height: 1.5;
 }
 
-
-.mobile-diary-top {
-
-    display: none;
-
-}
-
-
-/* ==========================================================
-   STAGE
-========================================================== */
+/* ==============================
+   ZONA CENTRAL
+================================= */
 
 .diary-stage {
-
     position: relative;
-
-    min-height: 500px;
-
-    display: grid;
-
-    grid-template-columns:
-        minmax(220px, 1fr)
-        minmax(360px, 490px)
-        minmax(180px, 0.9fr);
-
-    align-items: center;
-
-    gap: 25px;
-
-    margin-top: 13px;
-
-}
-
-
-/* ==========================================================
-   PERSONAJE
-========================================================== */
-
-.diary-character-area {
-
-    position: relative;
-
-    height: 100%;
-
-    display: flex;
-
-    align-items: flex-end;
-
-    justify-content: center;
-
-}
-
-
-.diary-character {
-
-    position: relative;
-
     z-index: 2;
+    min-height: 510px;
+    margin-top: 8px;
+    display: grid;
+    grid-template-columns: minmax(250px, 1fr) minmax(360px, 460px) minmax(170px, 0.8fr);
+    align-items: center;
+    gap: 18px;
+}
 
-    width: min(100%, 420px);
+.left-art {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 100%;
+}
 
-    max-height: 450px;
-
+.diary-girl {
+    width: min(100%, 380px);
+    max-height: 430px;
     object-fit: contain;
-
-    object-position:
-        bottom center;
-
-    filter:
-
-        drop-shadow(
-            0 18px 23px
-            rgba(61, 39, 134, 0.13)
-        );
-
+    filter: drop-shadow(0 18px 25px rgba(69, 47, 160, 0.12));
 }
 
-
-.character-note {
-
+.left-note {
     position: absolute;
-
-    z-index: 4;
-
-    top: 57px;
-    left: 15%;
-
-    color:
-        #4a31c6;
-
+    top: 75px;
+    left: 34px;
+    color: #5437ca;
     font-size: 18px;
-
-    line-height: 1.16;
-
-    text-align: center;
-
-    font-weight: 500;
-
     font-style: italic;
-
-    transform:
-        rotate(-7deg);
-
+    line-height: 1.15;
+    text-align: center;
+    transform: rotate(-8deg);
 }
 
-
-.character-note i {
-
-    margin-left: 4px;
-
-    color:
-        #744bff;
-
+.left-note i {
+    color: #8253ff;
 }
-
-
-/* ==========================================================
-   TARJETA CLAVE
-========================================================== */
 
 .access-card {
-
     position: relative;
-
-    z-index: 8;
-
+    z-index: 5;
     width: 100%;
-
-    padding:
-        31px
-        36px
-        30px;
-
-    border:
-
-        1px solid
-        rgba(108, 77, 246, 0.08);
-
+    padding: 30px 32px 28px;
+    border: 1px solid rgba(108, 77, 246, 0.09);
     border-radius: 30px;
-
-    background:
-        rgba(255, 255, 255, 0.94);
-
-    box-shadow:
-
-        0 18px 48px
-        rgba(65, 45, 145, 0.10);
-
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 18px 48px rgba(65, 45, 145, 0.08);
     text-align: center;
-
 }
 
-
-.lock-box {
-
+.lock-badge {
     width: 76px;
     height: 76px;
-
-    margin:
-        0
-        auto
-        15px;
-
+    margin: 0 auto 15px;
     display: grid;
-
     place-items: center;
-
-    border-radius: 22px;
-
-    color:
-        #6945ef;
-
-    background:
-
-        linear-gradient(
-            145deg,
-            #eee9ff,
-            #e6e4ff
-        );
-
-    box-shadow:
-
-        inset 0 0 20px
-        rgba(108, 77, 246, 0.04);
-
-    font-size: 31px;
-
+    border-radius: 23px;
+    background: linear-gradient(145deg, #eee9ff, #e9e4ff);
+    color: #704cf3;
+    font-size: 30px;
 }
-
 
 .access-card h2 {
-
-    color:
-        #201663;
-
     font-size: 22px;
-
-    line-height: 1.2;
-
+    color: #201663;
 }
-
 
 .access-subtitle {
-
     margin-top: 5px;
-
-    color:
-        #716c91;
-
+    color: #716c91;
     font-size: 13px;
-
 }
 
-
-/* INPUT CLAVE */
-
-.pin-wrapper {
-
-    position: relative;
-
-    min-height: 64px;
-
-    margin-top: 24px;
-
+.pin-input-box {
+    min-height: 62px;
+    margin-top: 22px;
     display: grid;
-
-    grid-template-columns:
-        60px
-        1fr
-        47px;
-
+    grid-template-columns: 56px 1fr 48px;
     align-items: center;
-
     overflow: hidden;
-
-    border:
-
-        1.5px solid
-        rgba(108, 77, 246, 0.24);
-
+    border: 1.5px solid rgba(108, 77, 246, 0.24);
     border-radius: 16px;
-
-    background:
-        #f9f8ff;
-
-    transition:
-        0.2s ease;
-
+    background: #faf8ff;
+    transition: 0.2s ease;
 }
 
-
-.pin-wrapper:focus-within {
-
-    border-color:
-        var(--morado);
-
-    box-shadow:
-
-        0 0 0 4px
-        rgba(108, 77, 246, 0.07);
-
+.pin-input-box:focus-within {
+    border-color: var(--morado);
+    box-shadow: 0 0 0 4px rgba(108, 77, 246, 0.07);
 }
 
-
-.pin-lock {
-
+.pin-prefix {
     height: 100%;
-
     display: grid;
-
     place-items: center;
-
-    border-right:
-
-        1px solid
-        rgba(108, 77, 246, 0.08);
-
-    color:
-        var(--morado);
-
-    background:
-        rgba(108, 77, 246, 0.04);
-
+    color: var(--morado);
+    background: rgba(108, 77, 246, 0.05);
+    border-right: 1px solid rgba(108, 77, 246, 0.08);
 }
 
-
-.pin-wrapper input {
-
+.pin-input-box input {
     width: 100%;
-
-    border: none;
-
-    outline: none;
-
-    text-align: center;
-
+    border: 0;
+    outline: 0;
     background: transparent;
-
-    color:
-        #4f4097;
-
-    font-size: 23px;
-
+    text-align: center;
+    color: #4f4097;
+    font-size: 22px;
     font-weight: 700;
-
-    letter-spacing: 14px;
-
-}
-
-
-.pin-wrapper input::placeholder {
-
-    color:
-        #aaa3da;
-
     letter-spacing: 12px;
-
 }
 
+.pin-input-box input::placeholder {
+    color: #aaa3da;
+    letter-spacing: 10px;
+}
 
 .show-password {
-
     height: 100%;
-
-    display: grid;
-
-    place-items: center;
-
     background: transparent;
-
-    color:
-        #938daa;
-
+    color: #938daa;
     cursor: pointer;
-
 }
-
 
 .show-password:hover {
-
-    color:
-        var(--morado);
-
+    color: var(--morado);
 }
-
-
-/* ERROR */
 
 .form-error {
-
     min-height: 20px;
-
     padding-top: 5px;
-
-    color:
-        #e45064;
-
+    color: #e45064;
     font-size: 11px;
-
 }
 
-
-/* BOTÓN ENTRAR */
-
-.enter-diary {
-
+.enter-button {
     width: 100%;
-
-    min-height: 57px;
-
+    min-height: 56px;
     margin-top: 4px;
-
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
     gap: 18px;
-
     border-radius: 16px;
-
     color: white;
-
-    background:
-
-        linear-gradient(
-            100deg,
-            #6f3df3,
-            #7648fa
-        );
-
-    box-shadow:
-
-        0 13px 25px
-        rgba(108, 77, 246, 0.25);
-
+    background: linear-gradient(100deg, #6f3df3, #7f58ff);
+    box-shadow: 0 13px 25px rgba(108, 77, 246, 0.25);
     font-size: 15px;
-
     font-weight: 600;
-
     cursor: pointer;
-
-    transition:
-        0.22s ease;
-
+    transition: 0.22s ease;
 }
 
-
-.enter-diary:hover {
-
-    transform:
-        translateY(-2px);
-
-    box-shadow:
-
-        0 17px 31px
-        rgba(108, 77, 246, 0.30);
-
+.enter-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 17px 31px rgba(108, 77, 246, 0.30);
 }
 
-
-.forgot-password {
-
-    margin-top: 19px;
-
-    color:
-        #5f3ce1;
-
+.forgot-link {
+    margin-top: 18px;
     background: transparent;
-
+    color: #5f3ce1;
     font-size: 12px;
-
     text-decoration: underline;
-
     cursor: pointer;
-
 }
 
-
-/* ==========================================================
-   DECORACIÓN DERECHA
-========================================================== */
-
-.right-decoration {
-
+/* right art */
+.right-art {
     position: relative;
-
-    height: 100%;
-
     display: flex;
-
     flex-direction: column;
-
     align-items: center;
-
     justify-content: center;
-
+    height: 100%;
 }
 
-
-.thought-note {
-
+.right-note {
     position: absolute;
-
-    top: 60px;
-
-    right: 0;
-
-    color:
-        #4734bd;
-
-    font-size: 16px;
-
-    line-height: 1.2;
-
-    text-align: center;
-
+    top: 72px;
+    right: 10px;
+    color: #5239c8;
+    font-size: 17px;
     font-style: italic;
-
-    transform:
-        rotate(-7deg);
-
+    line-height: 1.15;
+    text-align: center;
+    transform: rotate(-8deg);
 }
 
-
-.thought-note i {
-
-    margin-left: 3px;
-
-    color:
-        #d55ad0;
-
+.right-note i {
+    color: #d76ccf;
 }
 
-
-.plant {
-
+.flower-deco {
     position: relative;
-
     width: 120px;
-    height: 155px;
-
-    margin-top: 85px;
-
+    height: 150px;
+    margin-top: 80px;
 }
 
-
-.plant-heart {
-
+.flower-heart {
     position: absolute;
-
-    top: 12px;
-    left: 40px;
-
-    width: 65px;
-    height: 72px;
-
+    top: 6px;
+    left: 34px;
+    width: 60px;
+    height: 60px;
     display: grid;
-
     place-items: center;
-
-    color:
-        #7187ff;
-
+    color: #6f86ff;
     font-size: 56px;
-
-    transform:
-        rotate(-9deg);
-
+    transform: rotate(-10deg);
 }
 
-
-.plant-stem {
-
+.flower-stem {
     position: absolute;
-
-    left: 58px;
-    bottom: 44px;
-
-    width: 5px;
+    left: 56px;
+    bottom: 42px;
+    width: 4px;
     height: 62px;
-
     border-radius: 5px;
-
-    background:
-        #5e83cc;
-
+    background: #6a8dd7;
 }
 
-
-.plant-pot {
-
+.flower-pot {
     position: absolute;
-
-    left: 35px;
+    left: 30px;
     bottom: 0;
-
-    width: 65px;
-    height: 47px;
-
-    border-radius:
-        5px 5px 18px 18px;
-
-    background:
-
-        linear-gradient(
-            180deg,
-            #817ae1,
-            #645ac6
-        );
-
+    width: 70px;
+    height: 46px;
+    border-radius: 8px 8px 18px 18px;
+    background: linear-gradient(180deg, #8b80e8, #665cc9);
 }
 
-
-/* LIBROS */
-
-.book-stack {
-
+.stack-books {
     width: 160px;
-
+    margin-top: 10px;
 }
-
 
 .book {
-
-    height: 32px;
-
+    height: 31px;
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
     margin-top: -2px;
-
-    border:
-
-        1px solid
-        rgba(108, 77, 246, 0.14);
-
-    border-radius:
-        5px 13px 13px 5px;
-
-    color:
-        #4d3aaa;
-
-    background:
-
-        linear-gradient(
-            90deg,
-            #d9d1ff,
-            #f2efff
-        );
-
-    box-shadow:
-
-        0 5px 8px
-        rgba(69, 49, 140, 0.06);
-
+    border: 1px solid rgba(108, 77, 246, 0.14);
+    border-radius: 6px 13px 13px 6px;
+    color: #4d3aaa;
+    background: linear-gradient(90deg, #ddd5ff, #f5f2ff);
+    box-shadow: 0 5px 8px rgba(69, 49, 140, 0.06);
     font-size: 11px;
-
     font-weight: 600;
-
 }
-
 
 .book:nth-child(2) {
-
-    margin-left: 7px;
-
+    margin-left: 8px;
 }
-
 
 .book:nth-child(3) {
-
     margin-left: -4px;
-
 }
-
 
 .book:nth-child(4) {
-
-    margin-left: 10px;
-
+    margin-left: 11px;
 }
 
-
-/* ==========================================================
-   PRIVACIDAD INFERIOR
-========================================================== */
+/* ==============================
+   PRIVACY PILL
+================================= */
 
 .privacy-pill {
-
     position: relative;
-
-    z-index: 10;
-
-    width:
-        min(500px, 90%);
-
-    min-height: 60px;
-
-    margin:
-        -7px
-        auto
-        0;
-
-    padding:
-        10px
-        20px;
-
+    z-index: 4;
+    width: min(520px, 92%);
+    min-height: 62px;
+    margin: -4px auto 0;
+    padding: 10px 20px;
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
     gap: 12px;
-
-    border:
-
-        1px solid
-        rgba(108, 77, 246, 0.08);
-
+    border: 1px solid rgba(108, 77, 246, 0.08);
     border-radius: 999px;
-
-    background:
-        rgba(255, 255, 255, 0.82);
-
-    box-shadow:
-
-        0 10px 28px
-        rgba(69, 49, 140, 0.06);
-
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 10px 28px rgba(69, 49, 140, 0.06);
 }
-
 
 .privacy-pill-icon {
-
     width: 37px;
     height: 37px;
-
     flex-shrink: 0;
-
     display: grid;
-
     place-items: center;
-
     border-radius: 12px;
-
     color: white;
-
-    background:
-        #7250f4;
-
+    background: #7250f4;
 }
-
 
 .privacy-pill strong,
 .privacy-pill span {
-
     display: block;
-
 }
-
 
 .privacy-pill strong {
-
     font-size: 11px;
-
 }
-
 
 .privacy-pill span {
-
     margin-top: 2px;
-
-    color:
-        var(--texto-suave);
-
+    color: var(--texto-suave);
     font-size: 9px;
-
 }
 
-
-.bottom-handwriting {
-
+.bottom-doodle {
     position: absolute;
-
-    right: 40px;
-    bottom: 21px;
-
-    color:
-        #5142a4;
-
-    font-size: 13px;
-
+    right: 38px;
+    bottom: 22px;
+    color: #5847b2;
+    font-size: 14px;
     font-style: italic;
-
     line-height: 1.2;
-
-    transform:
-        rotate(-8deg);
-
+    transform: rotate(-8deg);
 }
 
-
-.bottom-handwriting i {
-
-    color:
-        var(--morado);
-
+.bottom-doodle i {
+    color: var(--morado);
 }
 
-
-/* ==========================================================
+/* ==============================
    MODAL
-========================================================== */
+================================= */
 
 .modal-overlay {
-
     position: fixed;
-
     inset: 0;
-
-    z-index: 500;
-
+    z-index: 300;
     display: grid;
-
     place-items: center;
-
-    padding: 20px;
-
+    padding: 22px;
     opacity: 0;
-
     visibility: hidden;
-
-    background:
-        rgba(32, 23, 68, 0.44);
-
-    backdrop-filter:
-        blur(8px);
-
-    transition:
-        0.22s ease;
-
+    background: rgba(28, 22, 56, 0.44);
+    backdrop-filter: blur(8px);
+    transition: 0.22s ease;
 }
-
 
 .modal-overlay.show {
-
     opacity: 1;
-
     visibility: visible;
-
 }
-
 
 .forgot-modal {
-
     position: relative;
-
-    width:
-        min(450px, 100%);
-
-    padding:
-        35px
-        30px
-        30px;
-
+    width: min(450px, 100%);
+    padding: 35px 30px 30px;
     border-radius: 28px;
-
     background: white;
-
     text-align: center;
-
-    box-shadow:
-
-        0 30px 80px
-        rgba(35, 25, 80, 0.28);
-
+    box-shadow: 0 30px 80px rgba(35, 25, 80, 0.28);
 }
-
 
 .modal-close {
-
     position: absolute;
-
     right: 15px;
     top: 15px;
-
     width: 40px;
     height: 40px;
-
     display: grid;
-
     place-items: center;
-
     border-radius: 50%;
-
-    background:
-        #f3effb;
-
-    color:
-        #6b667a;
-
+    background: #f3effb;
+    color: #6b667a;
     cursor: pointer;
-
 }
 
-
-.modal-lock {
-
+.modal-icon {
     width: 65px;
     height: 65px;
-
-    margin:
-        0
-        auto
-        15px;
-
+    margin: 0 auto 15px;
     display: grid;
-
     place-items: center;
-
     border-radius: 20px;
-
-    color:
-        var(--morado);
-
-    background:
-        #eee9ff;
-
+    color: var(--morado);
+    background: #eee9ff;
     font-size: 25px;
-
 }
 
-
-.modal-label {
-
-    color:
-        var(--morado);
-
+.modal-tag {
+    color: var(--morado);
     font-size: 10px;
-
     font-weight: 800;
-
     letter-spacing: 1px;
-
 }
-
 
 .forgot-modal h2 {
-
-    margin:
-        5px
-        0
-        8px;
-
+    margin: 5px 0 8px;
     font-size: 24px;
-
 }
-
 
 .forgot-modal p {
-
-    color:
-        var(--texto-suave);
-
+    color: var(--texto-suave);
     font-size: 13px;
-
     line-height: 1.6;
-
 }
-
 
 .recover-button {
-
     min-height: 48px;
-
     margin-top: 20px;
-
-    display: flex;
-
+    display: inline-flex;
     align-items: center;
-
     justify-content: center;
-
     gap: 9px;
-
+    width: 100%;
     border-radius: 14px;
-
     color: white;
-
-    background:
-
-        linear-gradient(
-            135deg,
-            var(--morado),
-            #896bff
-        );
-
+    background: linear-gradient(135deg, var(--morado), #896bff);
     font-size: 13px;
-
     font-weight: 700;
-
 }
 
-
-/* ==========================================================
+/* ==============================
    TOAST
-========================================================== */
+================================= */
 
 .toast {
-
     position: fixed;
-
-    z-index: 800;
-
     left: 50%;
     bottom: 25px;
-
-    max-width:
-        calc(100% - 30px);
-
-    padding:
-        12px
-        17px;
-
+    z-index: 400;
+    max-width: calc(100% - 30px);
+    padding: 12px 17px;
     opacity: 0;
-
     visibility: hidden;
-
-    transform:
-        translate(-50%, 12px);
-
+    transform: translate(-50%, 15px);
     border-radius: 13px;
-
     color: white;
-
-    background:
-        #2b2640;
-
-    box-shadow:
-        0 14px 30px
-        rgba(43, 38, 64, 0.24);
-
+    background: #29253d;
     font-size: 13px;
-
-    transition:
-        0.22s ease;
-
+    transition: 0.2s ease;
 }
-
 
 .toast.show {
-
     opacity: 1;
-
     visibility: visible;
-
-    transform:
-        translate(-50%, 0);
-
+    transform: translate(-50%, 0);
 }
 
-
-/* ==========================================================
+/* ==============================
    TABLET
-========================================================== */
+================================= */
 
-@media (max-width: 1150px) {
-
+@media (max-width: 1180px) {
     .diary-stage {
-
-        grid-template-columns:
-            0.8fr
-            minmax(350px, 1.2fr)
-            0.6fr;
-
+        grid-template-columns: 0.9fr minmax(340px, 1.1fr) 0.6fr;
     }
 
-
-    .character-note {
-
-        left: 0;
-
+    .left-note {
+        left: 4px;
     }
 
-
-    .thought-note {
-
+    .right-note {
         display: none;
-
     }
 
-
-    .right-decoration {
-
-        transform:
-            scale(0.85);
-
+    .right-art {
+        transform: scale(0.88);
     }
-
 }
 
-
-/* ==========================================================
-   SIDEBAR RESPONSIVE
-========================================================== */
-
-@media (max-width: 920px) {
-
+@media (max-width: 950px) {
     .sidebar {
-
-        width:
-            min(300px, 84vw);
-
-        transform:
-            translateX(-105%);
-
-        box-shadow:
-
-            18px 0 50px
-            rgba(31, 22, 75, 0.18);
-
+        width: min(300px, 84vw);
+        transform: translateX(-105%);
+        box-shadow: 16px 0 45px rgba(35, 26, 75, 0.17);
     }
-
 
     .sidebar.open {
-
-        transform:
-            translateX(0);
-
+        transform: translateX(0);
     }
-
 
     .sidebar-overlay.active {
-
         display: block;
-
     }
-
 
     .main-content {
-
         width: 100%;
-
         margin-left: 0;
-
-        padding: 15px;
-
+        padding: 18px 16px;
     }
 
-
     .mobile-menu {
-
         width: 44px;
         height: 44px;
-
         flex-shrink: 0;
-
         display: grid;
-
         place-items: center;
-
         border-radius: 13px;
-
-        color:
-            var(--morado);
-
-        background:
-            #efeaff;
-
+        color: var(--morado);
+        background: #f0ebff;
         font-size: 18px;
-
         cursor: pointer;
-
     }
-
 
     .diary-stage {
-
-        grid-template-columns:
-            0.9fr
-            minmax(340px, 1.1fr);
-
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
     }
 
-
-    .right-decoration {
-
+    .right-art {
         display: none;
-
     }
-
 }
 
-
-/* ==========================================================
-   CELULAR
-========================================================== */
+/* ==============================
+   MOBILE
+================================= */
 
 @media (max-width: 700px) {
-
-
     body {
-
-        background:
-            #f6f4ff;
-
+        background: #f5f3ff;
     }
-
 
     .main-content {
-
-        padding:
-            8px;
-
+        padding: 8px;
     }
-
-
-    /* ======================================================
-       HEADER CELULAR
-    ======================================================= */
 
     .topbar {
-
+        top: 6px;
         min-height: 62px;
-
-        margin-bottom: 8px;
-
-        padding:
-            6px
-            7px;
-
+        margin-bottom: 10px;
+        padding: 7px 9px;
+        border-radius: 18px;
     }
-
 
     .header-left {
-
         gap: 8px;
-
     }
-
-
-    .mobile-menu {
-
-        width: 42px;
-        height: 42px;
-
-        background:
-            transparent;
-
-        font-size: 18px;
-
-    }
-
 
     .mobile-logo {
-
         display: block;
-
-        width: 90px;
-
+        width: 78px;
     }
-
 
     .mobile-logo img {
-
         width: 100%;
-
     }
-
 
     .search-box {
-
         display: none;
-
     }
-
 
     .notification {
-
-        width: 41px;
-        height: 41px;
-
-        font-size: 18px;
-
-    }
-
-
-    .profile-data,
-    .profile-arrow {
-
-        display: none;
-
-    }
-
-
-    .profile-button {
-
-        padding: 0;
-
-    }
-
-
-    .profile-avatar {
-
-        width: 42px;
-        height: 42px;
-
-    }
-
-
-    /* ======================================================
-       CONTENEDOR
-    ======================================================= */
-
-    .diary-page {
-
-        min-height:
-            calc(100vh - 82px);
-
-        padding:
-            10px
-            13px
-            17px;
-
-        border-radius: 24px;
-
-    }
-
-
-    /* ======================================================
-       TÍTULO
-    ======================================================= */
-
-    .desktop-chip {
-
-        display: none;
-
-    }
-
-
-    .mobile-diary-top {
-
-        display: flex;
-
-        align-items: center;
-
-        gap: 9px;
-
-        margin-bottom: 15px;
-
-    }
-
-
-    .back-button {
-
-        width: 38px;
-        height: 38px;
-
-        flex-shrink: 0;
-
-        display: grid;
-
-        place-items: center;
-
-        border-radius: 50%;
-
-        color:
-            #655f85;
-
-        background:
-            rgba(255, 255, 255, 0.65);
-
-        font-size: 15px;
-
-        cursor: pointer;
-
-    }
-
-
-    .mobile-chip {
-
-        padding:
-            7px
-            12px;
-
-        font-size: 13px;
-
-    }
-
-
-    .main-title-row {
-
-        margin-top: 4px;
-
-        align-items: flex-start;
-
-        gap: 6px;
-
-    }
-
-
-    .diary-heading h1 {
-
-        max-width: 310px;
-
-        font-size: 39px;
-
-        line-height: 1.02;
-
-        letter-spacing: -1.5px;
-
-    }
-
-
-    .heart-doodle {
-
-        margin-top: 7px;
-
-        font-size: 45px;
-
-    }
-
-
-    .diary-heading > p {
-
-        max-width: 340px;
-
-        margin-top: 8px;
-
-        font-size: 14px;
-
-        line-height: 1.45;
-
-    }
-
-
-    .desktop-only {
-
-        display: none;
-
-    }
-
-
-    /* ======================================================
-       STAGE CELULAR
-
-       MUY IMPORTANTE:
-       NO INTENTA COMPRIMIR EL LAYOUT DE PC.
-    ======================================================= */
-
-    .diary-stage {
-
-        min-height: 0;
-
-        display: flex;
-
-        flex-direction: column;
-
-        gap: 0;
-
-        margin-top: 7px;
-
-    }
-
-
-    /* PERSONAJE ARRIBA */
-
-    .diary-character-area {
-
-        position: relative;
-
-        order: 1;
-
-        width: 100%;
-
-        height: 225px;
-
-        display: flex;
-
-        align-items: flex-end;
-
-        justify-content: center;
-
-    }
-
-
-    .diary-character {
-
-        width:
-            min(82%, 315px);
-
-        height: 230px;
-
-        object-fit: contain;
-
-        object-position:
-            bottom center;
-
-    }
-
-
-    .character-note {
-
-        top: 15px;
-
-        left: auto;
-        right: 7px;
-
-        font-size: 13px;
-
-        line-height: 1.15;
-
-    }
-
-
-    /* TARJETA DE CLAVE */
-
-    .access-card {
-
-        order: 2;
-
-        width: 100%;
-
-        margin-top: -2px;
-
-        padding:
-            20px
-            16px
-            20px;
-
-        border-radius: 23px;
-
-    }
-
-
-    .lock-box {
-
-        width: 60px;
-        height: 60px;
-
-        margin-bottom: 11px;
-
-        border-radius: 18px;
-
-        font-size: 24px;
-
-    }
-
-
-    .access-card h2 {
-
-        font-size: 21px;
-
-    }
-
-
-    .access-subtitle {
-
-        margin-top: 4px;
-
-        font-size: 13px;
-
-        line-height: 1.4;
-
-    }
-
-
-    .pin-wrapper {
-
-        min-height: 58px;
-
-        margin-top: 17px;
-
-        grid-template-columns:
-            52px
-            1fr
-            43px;
-
-        border-radius: 14px;
-
-    }
-
-
-    .pin-wrapper input {
-
-        font-size: 20px;
-
-        /*
-            IMPORTANTE:
-            En móvil no usamos fuente diminuta.
-        */
-
-        letter-spacing: 9px;
-
-    }
-
-
-    .enter-diary {
-
-        min-height: 53px;
-
-        font-size: 14px;
-
-        border-radius: 14px;
-
-    }
-
-
-    .forgot-password {
-
-        margin-top: 16px;
-
-        font-size: 13px;
-
-    }
-
-
-    /* DECORACIÓN DERECHA NO SE COMPRIME */
-
-    .right-decoration {
-
-        display: none;
-
-    }
-
-
-    /* PRIVACIDAD */
-
-    .privacy-pill {
-
-        width: 100%;
-
-        min-height: 68px;
-
-        margin-top: 12px;
-
-        justify-content: flex-start;
-
-        padding:
-            11px
-            14px;
-
-        border-radius: 18px;
-
-    }
-
-
-    .privacy-pill-icon {
-
         width: 40px;
         height: 40px;
-
     }
 
-
-    .privacy-pill strong {
-
-        font-size: 12px;
-
-    }
-
-
-    .privacy-pill span {
-
-        font-size: 10px;
-
-        line-height: 1.35;
-
-    }
-
-
-    .bottom-handwriting {
-
+    .profile-info,
+    .profile-arrow {
         display: none;
-
     }
 
-
-    /* MODAL */
-
-    .modal-overlay {
-
-        align-items: flex-end;
-
-        padding: 10px;
-
+    .profile-avatar {
+        width: 40px;
+        height: 40px;
     }
 
-
-    .forgot-modal {
-
-        width: 100%;
-
-        padding:
-            31px
-            19px
-            23px;
-
-        border-radius:
-            25px
-            25px
-            18px
-            18px;
-
+    .diary-shell {
+        min-height: calc(100vh - 82px);
+        padding: 12px 13px 18px;
+        border-radius: 24px;
     }
 
-
-    .forgot-modal h2 {
-
-        font-size: 23px;
-
+    .desktop-chip {
+        display: none;
     }
 
-
-    .forgot-modal p {
-
-        font-size: 14px;
-
+    .mobile-diary-bar {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin-bottom: 16px;
+        position: relative;
+        z-index: 3;
     }
 
-
-    .recover-button {
-
-        min-height: 50px;
-
-        font-size: 14px;
-
+    .back-button {
+        width: 38px;
+        height: 38px;
+        flex-shrink: 0;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        color: #655f85;
+        background: rgba(255, 255, 255, 0.68);
+        font-size: 15px;
+        cursor: pointer;
     }
 
-}
-
-
-/* ==========================================================
-   CELULARES PEQUEÑOS
-========================================================== */
-
-@media (max-width: 390px) {
-
-
-    .main-content {
-
-        padding: 6px;
-
+    .diary-chip {
+        font-size: 13px;
+        padding: 7px 12px;
     }
 
-
-    .mobile-logo {
-
-        width: 80px;
-
+    .diary-heading {
+        text-align: center;
     }
-
-
-    .diary-page {
-
-        padding:
-            9px
-            10px
-            14px;
-
-    }
-
 
     .diary-heading h1 {
-
-        max-width: 280px;
-
-        font-size: 34px;
-
+        margin-top: 0;
+        font-size: 40px;
+        line-height: 1.03;
+        letter-spacing: -1.6px;
     }
 
-
-    .heart-doodle {
-
-        font-size: 38px;
-
+    .diary-heading p {
+        max-width: 340px;
+        margin-top: 10px;
+        font-size: 14px;
+        line-height: 1.45;
     }
 
+    .diary-stage {
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        margin-top: 10px;
+    }
 
-    .diary-heading > p {
+    .left-art {
+        order: 1;
+        width: 100%;
+        height: 235px;
+    }
 
+    .diary-girl {
+        width: min(84%, 320px);
+        height: 235px;
+        object-fit: contain;
+        object-position: bottom center;
+    }
+
+    .left-note {
+        top: 18px;
+        left: auto;
+        right: 8px;
         font-size: 13px;
-
     }
-
-
-    .diary-character-area {
-
-        height: 205px;
-
-    }
-
-
-    .diary-character {
-
-        height: 210px;
-
-    }
-
 
     .access-card {
-
-        padding:
-            18px
-            13px;
-
+        order: 2;
+        margin-top: -2px;
+        padding: 20px 16px 20px;
+        border-radius: 23px;
     }
 
+    .lock-badge {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 11px;
+        border-radius: 18px;
+        font-size: 24px;
+    }
 
     .access-card h2 {
+        font-size: 21px;
+    }
 
+    .access-subtitle {
+        margin-top: 4px;
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
+    .pin-input-box {
+        min-height: 58px;
+        margin-top: 18px;
+        grid-template-columns: 52px 1fr 43px;
+        border-radius: 14px;
+    }
+
+    .pin-input-box input {
         font-size: 20px;
-
+        letter-spacing: 9px;
     }
 
+    .enter-button {
+        min-height: 53px;
+        font-size: 14px;
+        border-radius: 14px;
+    }
 
-    .pin-wrapper input {
+    .forgot-link {
+        margin-top: 16px;
+        font-size: 13px;
+    }
 
+    .right-art {
+        display: none;
+    }
+
+    .privacy-pill {
+        width: 100%;
+        min-height: 70px;
+        margin-top: 13px;
+        justify-content: flex-start;
+        padding: 11px 14px;
+        border-radius: 18px;
+    }
+
+    .privacy-pill-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .privacy-pill strong {
+        font-size: 12px;
+    }
+
+    .privacy-pill span {
+        font-size: 10px;
+        line-height: 1.35;
+    }
+
+    .bottom-doodle {
+        display: none;
+    }
+
+    .modal-overlay {
+        align-items: flex-end;
+        padding: 10px;
+    }
+
+    .forgot-modal {
+        width: 100%;
+        padding: 31px 19px 23px;
+        border-radius: 25px 25px 18px 18px;
+    }
+
+    .forgot-modal h2 {
+        font-size: 23px;
+    }
+
+    .forgot-modal p {
+        font-size: 14px;
+    }
+
+    .recover-button {
+        min-height: 50px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 390px) {
+    .main-content {
+        padding: 6px;
+    }
+
+    .mobile-logo {
+        width: 72px;
+    }
+
+    .diary-shell {
+        padding: 10px 10px 15px;
+    }
+
+    .diary-heading h1 {
+        font-size: 35px;
+    }
+
+    .diary-heading p {
+        font-size: 13px;
+    }
+
+    .left-art {
+        height: 210px;
+    }
+
+    .diary-girl {
+        height: 210px;
+    }
+
+    .access-card {
+        padding: 18px 13px;
+    }
+
+    .pin-input-box input {
         font-size: 18px;
-
         letter-spacing: 7px;
-
     }
-
 }
